@@ -14,12 +14,12 @@ if __name__ == "__main__":
     query='DESCRIBE series'
     spark.sql(query).show(20)
 
-    query="""SELECT name, genre, rating FROM series WHERE type=="TV" ORDER BY `rating`"""
+    query="""SELECT name, genre, rating FROM series WHERE type=="TV" ORDER BY rating"""
     df_series_names = spark.sql(query)
     df_series_names.show(20)
 
     
-    query='SELECT name, genre, episodes, rating FROM series WHERE episodes > 15  ORDER BY rating'
+    query='SELECT name, genre, episodes, rating FROM series WHERE episodes > 15  ORDER BY rating DESC'
     df_serie_greater_15 = spark.sql(query)
     df_serie_greater_15.show(20)
     results = df_serie_greater_15.toJSON().collect()
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     with open('results/data.json', 'w') as file:
         json.dump(results, file)
 
-    #query='SELECT sex,COUNT(sex) FROM people WHERE birth BETWEEN "1903-01-01" AND "1911-12-31" GROUP BY sex'
-    #df_people_1903_1906_sex = spark.sql(query)
-    #df_people_1903_1906_sex.show()
+    query='SELECT type, COUNT(*) AS movie_count FROM series GROUP BY type ORDER BY movie_count DESC'
+    df_series_type = spark.sql(query)
+    df_series_type.show()
     spark.stop()
