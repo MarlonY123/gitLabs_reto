@@ -14,7 +14,7 @@ if __name__ == "__main__":
     query='DESCRIBE series'
     spark.sql(query).show(20)
 
-    query="""SELECT name, genre, rating FROM series WHERE type=="TV" ORDER BY rating"""
+    query='SELECT name, genre, rating, type FROM series WHERE type=="TV" ORDER BY rating DESC'
     df_series_names = spark.sql(query)
     df_series_names.show(20)
 
